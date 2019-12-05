@@ -1,0 +1,70 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row" *ngIf="!isFormSubmitted">
+            <div class="col-md-6 offset-md-3">
+              <form [formGroup]="detailsForm" (ngSubmit)="onSubmit()" novalidate>
+                      <div class="form-group">
+                          <label for="email">Email</label>
+                          <input formControlName="email" type="email" class="form-control" id="email" placeholder="test@example.com">
+                          <small *ngIf="detailsForm.get('email').hasError('required')" class="form-text text-danger">Email is required.</small>
+                          <small *ngIf="detailsForm.get('email').hasError('email')" class="form-text text-danger">Email is invalid.</small>
+                      </div>
+                      <div class="form-group">
+                          <label>First Name</label>
+                          <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                          <small *ngIf="detailsForm.get('firstName').hasError('required')" class="form-text text-danger">First name is required.</small>
+                      </div>
+                      <div class="form-group">
+                          <label>Last Name</label>
+                          <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                          <small *ngIf="detailsForm.get('lastName').hasError('required')" class="form-text text-danger">Last name is required.</small>
+                      </div>
+                      <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                          <small *ngIf="detailsForm.get('password').hasError('required')" class="form-text text-danger">Password is required.</small>
+                          <small *ngIf="detailsForm.get('password').hasError('minlength')" class="form-text text-danger">Password must be at least 8 characters.</small>
+                          <small *ngIf="detailsForm.get('password').hasError('pattern')" class="form-text text-danger">Password must contain One Lower Case Letter,  One Special Character, One Number.</small>
+                      </div>
+                      <div class="form-group">
+                          <label>Confirm Password</label>
+                          <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                           <small *ngIf="detailsForm.get('confirmPassword').hasError('mustMatch')" class="form-text text-danger">Must match with password</small>
+                      </div>
+                      <div class="form-group">
+                          <label>Mobile Number</label>
+                          <input type="text" formControlName="mobileNumber" class="form-control" />
+                          <small *ngIf="detailsForm.get('mobileNumber').hasError('required')" class="form-text text-danger">Mobile Number is required.</small>
+                          <small *ngIf="detailsForm.get('mobileNumber').hasError('pattern')" class="form-text text-danger">Mobile Number must contain 10 digits.</small>
+                      </div>
+                      <div class="form-group">
+                        <select multiple class="custom-select" formControlName="cityName">
+                            <option value="" disabled>Choose your city</option>
+                            <option *ngFor="let cityName of City" [ngValue]="cityName" (change)="changeCity($event)">{{cityName}}</option>
+                          </select>
+                          <small *ngIf="detailsForm.get('cityName').hasError('required')" class="form-text text-danger">City is required.</small>
+                      </div>
+                      <button>Submit</button>
+                  </form>
+            </div>
+            
+         </div>
+         <div class="row" *ngIf="isFormSubmitted">
+            <div class="col-lg-6 col-md-6 offset-md-3">
+                <div><label>Email : </label> {{detailsForm.get('email').value}}</div>
+                <div><label>Name : </label> {{detailsForm.get('firstName').value + ' ' + detailsForm.get('lastName').value}}</div>
+                <div><label>Mobile Number : </label> {{detailsForm.get('mobileNumber').value}}</div>
+                <div><label>Location : </label> {{detailsForm.get('cityName').value}}</div>
+               
+            </div>
+            <br><br>
+            <div class="col-lg-6 col-md-6 offset-md-3">
+              <div class="chatform">
+                  <app-message-list [messages]="messages"></app-message-list>
+                  <app-message-form [message]="message" [messages]="messages"></app-message-form>
+                </div>
+            </div>
+        </div>
+         
+    </div>
+</div>
